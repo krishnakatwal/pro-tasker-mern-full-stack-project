@@ -2,12 +2,16 @@ import "dotenv/config";
 import "./config/connection.js";
 
 import express from "express";
+import userRoutes from './routes/userRoutes.js'
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+//Mount routes
+app.use('/api/users',userRoutes)
+
+app.get("/", (req, res) => { 
   res.send("Hello World!");
 });
 
