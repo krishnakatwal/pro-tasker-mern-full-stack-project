@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose,{Schema} from "mongoose";
 
 const taskSchema = new Schema({
   title: {
@@ -21,7 +21,7 @@ const taskSchema = new Schema({
   },
   project: {
     type: mongoose.Schema.ObjectId,
-    ref: Project, // reference to the Project model
+    ref: "Project", // reference to the Project model
     required: true,
   },
 });
