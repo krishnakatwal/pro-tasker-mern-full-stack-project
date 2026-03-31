@@ -1,5 +1,5 @@
 // A library used to make HTTP requests (like GET, POST, etc.) to your backend.
-import axios from "axios";
+import axios from 'axios'
 
 //helper function, gets the JWT token from the browser’s localStorage, Whenever you call token(), it returns the saved token.
 //Token Function
@@ -9,7 +9,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const token = () => localStorage.getItem("token");
 
 //Creating userClient
-const userClient = axios.create({
+export const userClient = axios.create({
   baseURL: `${BASE_URL}/api/users`,
   headers: {
     Authorization: `Bearer ${token()}`,

@@ -1,8 +1,89 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { userClient } from "../clients/api.js";
+import { useUser } from "../context/UserContext.jsx";
 //custom API helper (usually Axios),Makes requests to your backend
 
 function Register() {
-  <>Regitser Page</>;
+  //// bring in the setter function from the context
+  const { setUser } = useUser();
+  const navigate = useNavigate();
+
+  //form data - stores the values of the form fields
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  //Handling input changes
+  const handlechange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  //submitting the form
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // send the form data to our backend
+      const { data } = await userClient.post("/register", form);
+
+      // take the token and store it locally
+      localStorage.setItem("token", data.token);
+
+      // save some user data in our state
+      setUser(data.user);
+
+      // take the user to a different page
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.message);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Register Page</h1>
+      <form onSubmit={handlesubmit}>
+        <label htmlFor="username">username:</label>
+
+        <input
+          value={form.username}
+          onChange={handlechange}
+          id="username"
+          name="username"
+          type="username"
+          required
+        />
+
+        <label htmlFor="email">Email:</label>
+        <input
+          value={form.email}
+          onChange={handlechange}
+          id="email"
+          name="email"
+          type="password"
+          required
+        />
+
+        <label htmlFor="password">Password:</label>
+        <input
+          value={form.password}
+          onChange={handlechange}
+          id="password"
+          name="password"
+          type="password"
+          required
+        />
+
+        <button>Register</button>
+      </form>
+    </div>
+  );
 }
+
 export default Register;
