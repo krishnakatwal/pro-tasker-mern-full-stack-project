@@ -20,7 +20,7 @@ function App() {
      
       {user ? (
         <Routes>
-          {/* <Route path='/dashboard' element={<Dashboard/ >} /> */}
+          <Route path='/dashboard' element={<Dashboard/ >} />
           <Route />
         </Routes>
 
