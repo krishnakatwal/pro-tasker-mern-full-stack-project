@@ -8,15 +8,19 @@ const router = express.Router()
 //All routes protected
 router.use(authMiddleware);
 
-//Create
+//Create- POST/api/projects
 router.post("/", createProject);   
- // Dashboard (all user projects)    
+
+ // Dashboard (all user projects) - GET /api/projects  
 router.get("/", getProjects);   
-// Single project       
+
+// Single project - GET /api/projects/:id     
 router.get("/:id", getProjectById);  
-   // Update   
+
+   // Update - PUT /api/projects/:id 
 router.put("/:id", updateProject);  
-  // Delete 
+
+  // Delete - DELETE /api/projects/:id
 router.delete("/:id", deleteProject);   
 
 export default router;

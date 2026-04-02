@@ -1,4 +1,4 @@
-import mongoose,{Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const taskSchema = new Schema({
   title: {
@@ -23,8 +23,12 @@ const taskSchema = new Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Project", // reference to the Project model
     required: true,
+    index: true,
   },
 });
+
+// Compound index for faster filtering
+taskSchema.index({ project: 1, status: 1 });
 
 const Task = mongoose.model("Task", taskSchema);
 export default Task;

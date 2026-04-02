@@ -29,8 +29,8 @@ export const getProjects = async (req, res) => {
 export const getProjectById = async (req, res) => {
   try {
     //finds a single project by its ID and ensures it belongs to the currently logged-in user
-    const project = await Project.findById({
-      _id: req.params._id, // which project(identifies the project)
+    const project = await Project.findOne({
+      _id: req.params.id, // which project(identifies the project)
       user: req.user._id, // belongs to which user(verifies ownership)
     });
 
@@ -48,14 +48,14 @@ export const getProjectById = async (req, res) => {
 // Update project
 export const updateProject = async (req, res) => {
   try {
-    const project = await findOne({ _id: req.params.id });
+    const project = await Project.findOne({ _id: req.params.id });
 
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
     //Only owner can update
-    if (project.user.toString() !== req.user._id) {
+    if (project.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Not authorized" });
     }
     const updatedProject = await Project.findByIdAndUpdate(
@@ -78,7 +78,7 @@ export const deleteProject = async (req, res) => {
       return res.status(404).json({ message: "Project not found" });
     }
     //Only owner can delete
-    if (project.owner.toString() !== req.user._id) {
+    if (project.user.toString() !== req.user._id) {
       return res
         .status(403)
         .json({ message: "Not authorized to delete the Project" });

@@ -1,5 +1,5 @@
-import mongoose,{Schema} from "mongoose";
-import bcrypt from "bcrypt"
+import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -9,7 +9,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minLength: 5,
+    minLength: 8,
+    match: [
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
+      "Password must include uppercase, lowercase, number, and special character",
+    ],
   },
   email: {
     type: String,

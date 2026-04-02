@@ -7,7 +7,7 @@ function Login() {
   //Bring in the setter function from the context
   const { setUser } = useUser();
 
-  const navigate = useUser();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",

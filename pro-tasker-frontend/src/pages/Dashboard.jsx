@@ -1,20 +1,32 @@
+/**Dashboard → list view */
+
 import { useEffect, useState } from "react";
-import { postClient } from "../clients/api.js";
+import { useNavigate } from "react-router-dom";
+import { projectClient } from "../clients/api.js";
 import ProjectCard from "../components/ProjectCard.jsx";
 
 function Dashboard() {
-  const [projects, setProjects] = useEffect([]);
+  const [projects, setProjects] = useState([]);
   const [name, setName] = useState("");
-  const [description, setDescription] = useState;
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("pending");
 
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const navigate = useNavigate();
+
+  //fetch Projects
   useEffect(() => {
     async function getProjects() {
       try {
         //get our project from db
-        const { data } = await postClient.get("/");
+        const { data } = await projectClient.get("/");
+
+        // console.log(data);
 
         //save that in component's state
-        setProjects(data);
+        setProjects(data.projects || data || []);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -22,12 +34,17 @@ function Dashboard() {
     getProjects();
   }, []);
 
+  //create project
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       //make a POST request to create the post (based off the state: title and body)
-      const { data } = await postClient.post("/", { name, description });
+      const { data } = await projectClient.post("/", {
+        name,
+        description,
+        status,
+      });
 
       //add the new post to our state
       setProjects([data, ...projects]);
@@ -35,44 +52,64 @@ function Dashboard() {
       //reset the form
       setName("");
       setDescription("");
+      setStatus("pending");
     } catch (error) {
       console.log(error);
     }
   };
 
-  return(
+  return (
     <div>
-<h1>Dashboard Page</h1>
+      <h1>Dashboard Page</h1>
 
-<form onSubmit="handleSubmit">
-  <h2>Leave a Project Here:</h2>
+      {/* Create Project Form */}
+      <form onSubmit={handleSubmit}>
+        <h2>Leave a Project Here:</h2>
 
-  <label htmlFor="name">Name:</label>
+        <label htmlFor="name">Name:</label>
+        <input
+          id="name"
+          required={true}
+          value={name}
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Project Name"
+        />
 
-  <input 
-  id="name"
-  required={true}
-  value={name}
-  type="name" 
-  onChange={(e) => setName(e.target.value)}
+        <label htmlFor="description">Description:</label>
 
-  />
+        <textarea
+          type="text"
+          id="description"
+          required={true}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
 
-  <label htmlFor="description">Description:</label>
+        <select value={status} onChange={(e) => set}>
+          <option>Pending</option>
+          <option>In-Progress</option>
+          <option>Completed</option>
+        </select>
 
-  <input 
-  type="description"
-  id="description"
-  required={true}
-  value={description}
-  onChange={(e) => setDescription(e.target.value)}
-  
-  />
+        <button type="subm it">Create Project</button>
+      </form>
 
-  <button>Submit</button>
-</form>
+      {/* Project List */}
+      <div>
+        {projects.length === 0 ? (
+          <p>No Projects found.</p>
+        ) : (
+          projects.map((project) => (
+            <ProjectCard
+              key={project._id}
+              project={project}
+              setProjects={setProjects}
+            />
+          ))
+        )}
+      </div>
     </div>
-  )
-
+  );
 }
 export default Dashboard;

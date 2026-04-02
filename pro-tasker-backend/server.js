@@ -17,7 +17,7 @@ app.use("/api/users", userRoutes);
 
 app.use("/api/projects", projectRoutes);
 
-app.use("/api/task", taskRoutes);
+app.use("/api/tasks", taskRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

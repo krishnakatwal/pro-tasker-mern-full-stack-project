@@ -1,7 +1,7 @@
 import "./App.css";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
-
+import Dashboard from "./pages/Dashboard.jsx"
 import { Routes,Route,Navigate } from "react-router-dom";
 import { useUser } from "./context/UserContext.jsx";
 import Navbar from "./components/Navbar.jsx";
