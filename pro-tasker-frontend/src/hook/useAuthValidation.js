@@ -43,8 +43,8 @@ function useAuthValidation() {
     const newErrors = {};
 
     // check if name is provided
-    if (!form.name) {
-      newErrors.name = "Name is required";
+    if (!form.username) {
+      newErrors.username = "Name is required";
     }
 
     // check if email is empty

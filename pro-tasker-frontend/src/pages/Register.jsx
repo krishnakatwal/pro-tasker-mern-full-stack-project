@@ -50,7 +50,9 @@ function Register() {
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      setErrorMessage(error.response.data.message);
+      setErrorMessage(error.response?.data?.message || "Registration failed");
+    } finally {
+      stopLoading();
     }
   };
 
@@ -62,7 +64,9 @@ function Register() {
         alignItems: "center", // centers horizontally
       }}
     >
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Register Page</h1>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+        Register Page
+      </h1>
 
       <form
         onSubmit={handlesubmit}
@@ -91,6 +95,9 @@ function Register() {
               boxSizing: "border-box",
             }}
           />
+          {errors.username && (
+            <p style={{ color: "red", margin: 0 }}>{errors.username}</p>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
@@ -110,6 +117,9 @@ function Register() {
               boxSizing: "border-box",
             }}
           />
+          {errors.email && (
+            <p style={{ color: "red", margin: 0 }}>{errors.email}</p>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
@@ -129,6 +139,9 @@ function Register() {
               boxSizing: "border-box",
             }}
           />
+          {errors.password && (
+            <p style={{ color: "red", margin: 0 }}>{errors.password}</p>
+          )}
         </div>
 
         <button

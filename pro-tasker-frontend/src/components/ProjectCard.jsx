@@ -5,107 +5,97 @@ import { useState } from "react";
 import { projectClient } from "../clients/api";
 import { useNavigate } from "react-router-dom";
 
-
-function ProjectCard({ project,setProjects }) {
-
-   const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
+function ProjectCard({ project, setProjects }) {
+  const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
 
   // console.log("Project data:", project);
 
   const [status, setStatus] = useState(project?.status || "");
-  const [isEditing, setEditing] =useState(false)
-  const [name, setName] = useState(project?.name || "")
-  const [description,setDescription] = useState(project?.description || "")
+  const [isEditing, setEditing] = useState(false);
+  const [name, setName] = useState(project?.name || "");
+  const [description, setDescription] = useState(project?.description || "");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   //update project
   const handleUpdate = async () => {
-    console.log("save Cliocked")
-  
+    console.log("save Cliocked");
+
     try {
       startLoading();
-    const { data } = await projectClient.put(`/${project._id}`, {
-       name,
-      description,
-      status,
-    });
+      const { data } = await projectClient.put(`/${project._id}`, {
+        name,
+        description,
+        status,
+      });
 
-      setProjects((prev)=>
-        prev.map((p) => (p._id === project._id ? data: p))
-    )
-      
-    setEditing(false)
-     stopLoading();
+      setProjects((prev) =>
+        prev.map((p) => (p._id === project._id ? data : p)),
+      );
+
+      setEditing(false);
+      stopLoading();
     } catch (error) {
-    setErrorMessage("Failed to update project");
-    // alert("Failed to update project")
-    
-      
+      setErrorMessage("Failed to update project");
+      // alert("Failed to update project")
     }
-  }
- 
+  };
+
   //Delete Project
   const handleDelete = async () => {
-    if(!window.confirm("Delete this projects"))
-      return
+    if (!window.confirm("Delete this projects")) return;
 
     try {
       startLoading();
-      await projectClient.delete(`/${project._id}`)
+      await projectClient.delete(`/${project._id}`);
 
-      setProjects((prev) => 
-      prev.filter((p) => p._id !== project._id))
+      setProjects((prev) => prev.filter((p) => p._id !== project._id));
 
-       stopLoading();
-
+      stopLoading();
     } catch (error) {
       setErrorMessage("Failed to delete project");
-    // alert("Failed to delete project")
-    
+      // alert("Failed to delete project")
     }
-  }
+  };
 
-
-    // Change status
+  // Change status
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
     setStatus(newStatus);
     setProjects((prev) =>
       prev.map((projectItem) =>
-        projectItem._id === project._id ? { ...projectItem, status: newStatus } : projectItem
-      )
-    )
+        projectItem._id === project._id
+          ? { ...projectItem, status: newStatus }
+          : projectItem,
+      ),
+    );
 
     try {
-
-         startLoading();
+      startLoading();
       const { data } = await projectClient.put(`/${project._id}`, {
         status: newStatus,
       });
 
       setProjects((prev) =>
-        prev.map((p) => (p._id === project._id ? data : p))
+        prev.map((p) => (p._id === project._id ? data : p)),
       );
 
       stopLoading();
     } catch (e) {
       // setError(e.response?.data?.message || "Status update failed");
-    setErrorMessage("Status update failed");
-    // alert("Failed to delete task")
-    
+      setErrorMessage("Status update failed");
+      // alert("Failed to delete task")
     }
   };
 
   return (
     <div
-    
-      style={{ 
-        border: "1px solid #ddd", 
-        padding: "16px", 
-        borderRadius: "8px" ,
-         marginBottom: "12px",
-         backgroundColor: "#fff",
+      style={{
+        border: "1px solid #ddd",
+        padding: "16px",
+        borderRadius: "8px",
+        marginBottom: "12px",
+        backgroundColor: "#fff",
       }}
     >
       {/** project Info */}
@@ -113,62 +103,69 @@ function ProjectCard({ project,setProjects }) {
       {/* Header */}
       {/** clickable titile */}
       <h3
-      onClick={() => {
-        console.log("clicked:",project._id);
-         navigate(`/projects/${project._id}`)}}
-
-      style={{
-        cursor: "pointer",
-         color:"blue",
-         marginBottom: "8px",}}
-      >{project.name}</h3>
+        onClick={() => {
+          console.log("clicked:", project._id);
+          navigate(`/projects/${project._id}`);
+        }}
+        style={{
+          cursor: "pointer",
+          color: "blue",
+          marginBottom: "8px",
+        }}
+      >
+        {project.name}
+      </h3>
 
       {/* Body */}
-      <p style={{ marginBottom: "8px" }}>{project.description || "No description provided"}</p>
-      
+      <p style={{ marginBottom: "8px" }}>
+        {project.description || "No description provided"}
+      </p>
 
-      <small
-      style={{ display: "block",
-         marginBottom: "10px", 
-         color: "#666" }}
-      >Created: {new Date(project.createdAt).toLocaleDateString()}</small>
+      <small style={{ display: "block", marginBottom: "10px", color: "#666" }}>
+        Created: {new Date(project.createdAt).toLocaleDateString()}
+      </small>
 
       {/** status */}
-      <select value={status} onChange={handleStatusChange}
-      style={{
-        padding: "4px",
-        borderRadius: "4px",
-        border: "1px solid #ccc",
-        marginBottom: "10px",
-      }}
+      <select
+        value={status}
+        onChange={handleStatusChange}
+        style={{
+          padding: "4px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          marginBottom: "10px",
+        }}
       >
         <option value="pending">Pending</option>
         <option value="In-Progress">In Progress</option>
         <option value="completed">Completed</option>
-
       </select>
-
-    
 
       {/* Actions */}
       <div style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
-        <button onClick={() => setEditing(true)}
-        style={{
-          padding: "6px 10px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-          cursor: "pointer",
-        }}
-          >Edit</button>
-        <button onClick={handleDelete}
-        style={{
-          padding: "6px 10px",
-          borderRadius: "4px",
-          border: "none",
-          backgroundColor: "#fecaca",
-          cursor: "pointer",
-        }}
-        >Delete</button> 
+        <button
+          onClick={() => setEditing(true)}
+          style={{
+            padding: "6px 10px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            cursor: "pointer",
+          }}
+        >
+          Edit
+        </button>
+        <button
+          onClick={handleDelete}
+          style={{
+            padding: "6px 10px",
+            borderRadius: "4px",
+            border: "none",
+            backgroundColor: "#fecaca",
+            cursor: "pointer",
+          }}
+        >
+          Delete
+        </button>
       </div>
 
       {/** Simple Edit Form */}
@@ -176,58 +173,61 @@ function ProjectCard({ project,setProjects }) {
         <div style={{ marginTop: "12px" }}>
           <h4 style={{ marginBottom: "8px" }}>Edit Project</h4>
 
-          <input 
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          type="text" 
-           style={{
-            display: "block",
-            width: "100%",
-            padding: "6px",
-            marginBottom: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
-          />
-
-          <textarea 
-          value={description}
-          onChange={(e)=> setDescription(e.target.value)}
-          placeholder="Description"
-          style={{
-            display: "block",
-            width: "100%",
-            padding: "6px",
-            marginBottom: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
-          />
-          <div style={{ display: "flex", gap: "8px" }}>
-          <button onClick={handleUpdate}
-          style={{
-              padding: "6px 10px",
-              borderRadius: "4px",
-              border: "none",
-              backgroundColor: "#fecaca",
-              cursor: "pointer",
-            }}
-          >Save</button>
-          <button onClick={()=> setEditing(false)}
-          style={{
-              padding: "6px 10px",
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            type="text"
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "6px",
+              marginBottom: "8px",
               borderRadius: "4px",
               border: "1px solid #ccc",
-              cursor: "pointer",
             }}
-            >cancel</button>
+          />
+
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description"
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "6px",
+              marginBottom: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
+          />
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              onClick={handleUpdate}
+              style={{
+                padding: "6px 10px",
+                borderRadius: "4px",
+                border: "none",
+                backgroundColor: "#fecaca",
+                cursor: "pointer",
+              }}
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setEditing(false)}
+              style={{
+                padding: "6px 10px",
+                borderRadius: "4px",
+                border: "1px solid #ccc",
+                cursor: "pointer",
+              }}
+            >
+              cancel
+            </button>
           </div>
-            
-         
         </div>
       )}
-
     </div>
   );
 }
