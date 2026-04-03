@@ -14,7 +14,12 @@ function Navbar() {
     justifyContent: "space-between",
     alignItems: "center",
     flexWrap: "wrap",
-    
+    position: "fixed",   // fixed
+    top: 0,              // stick to top
+    left: 0,
+   width: "98%" ,      // full width
+    zIndex: 1000  ,
+   
   };
 
   const ulStyle = {
@@ -30,6 +35,7 @@ function Navbar() {
     color: "#fff",
     textDecoration: "none",
     cursor: "pointer",
+  
   };
 
    const welcomeStyle = {

@@ -12,8 +12,6 @@ function Dashboard() {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("pending");
 
-
-
   // const [filteredProjects, setFilteredProjects] = useState([]);
   // const [searchQuery, setSearchQuery] = useState("");
 
@@ -24,7 +22,7 @@ function Dashboard() {
   useEffect(() => {
     async function getProjects() {
       try {
-         startLoading();
+        startLoading();
         //get our project from db
         const { data } = await projectClient.get("/");
 
@@ -33,22 +31,19 @@ function Dashboard() {
         //save that in component's state
         setProjects(data.projects || data || []);
         stopLoading();
-
       } catch (error) {
-    setErrorMessage(error.response?.data || error.message);
+        setErrorMessage(error.response?.data || error.message);
       }
     }
     getProjects();
   }, []);
-
-  
 
   //create project
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-       startLoading();
+      startLoading();
       //make a POST request to create the post (based off the state: title and body)
       const { data } = await projectClient.post("/", {
         name,
@@ -65,103 +60,160 @@ function Dashboard() {
       setStatus("pending");
 
       stopLoading();
-
     } catch (error) {
-       setErrorMessage("Failed to create project");
+      setErrorMessage("Failed to create project");
     }
   };
- // Loading UI
+  // Loading UI
   if (loading) return <Spinner />;
 
   return (
-<div style={{
-      padding: "24px",
-      fontFamily: "Arial, sans-serif",
-    }}>
-      <h1 style={{color: "#2563eb",textAlign: "center", marginBottom: "20px", fontSize: "6vw",fontWeight: "bold", }}>Dashboard Page</h1>
+    <div
+      style={{
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#f3f4f6",
+        minHeight: "100vh",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Title */}
+      <h1
+        style={{
+          color: "#2563eb",
+          textAlign: "center",
+          fontSize: "clamp(24px, 5vw, 48px)", // 👈 responsive font
+          fontWeight: "bold",
+          marginTop: "0px",
+          marginBottom: "20px",
+        }}
+      >
+        Dashboard Page
+      </h1>
 
-      {/* Create Project Form */}
-      <form onSubmit={handleSubmit}  style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        maxWidth: "400px",
-        padding: "16px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-        marginBottom: "30px",
-      }}>
-        <h2>Create a Project Here:</h2>
-
-        <label htmlFor="name">Name:</label>
-         
-        <input
-          id="name"
-          required={true}
-          value={name}
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Project Name"
+      {/* Layout Wrapper */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "30px",
+        }}
+      >
+        {/* Create Project Form */}
+        <form
+          onSubmit={handleSubmit}
           style={{
-          padding: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-        }}
-        />
+            width: "100%",
+            maxWidth: "500px",
+            backgroundColor: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+            border: "1px solid #ddd",
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            boxSizing: "border-box",
+          }}
+        >
+          <h2 style={{ margin: 0 }}>Create a Project Here:</h2>
 
-        <label htmlFor="description">Description:</label>
-        
+          <label htmlFor="name">Name:</label>
 
-        <textarea
-          type="text"
-          id="description"
-          required={true}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-           style={{
-          padding: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-          minHeight: "80px",
-        }}
-        />
+          <input
+            id="name"
+            required={true}
+            value={name}
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Project Name"
+            style={{
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              outline: "none",
+              fontSize: "14px",
+              width: "100%",
+              boxSizing: "border-box",
+               boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+            }}
+          />
 
-        <select value={status} onChange={(e) => setStatus(e.target.value)}
-          style={{
-          padding: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-        }}
+          <label htmlFor="description">Description:</label>
+
+          <textarea
+            type="text"
+            id="description"
+            required={true}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={{
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              outline: "none",
+              fontSize: "14px",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
+          />
+
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            style={{
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              outline: "none",
+              fontSize: "14px",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
           >
-          <option>Pending</option>
-          <option>In-Progress</option>
-          <option>Completed</option>
-        </select>
+            <option>Pending</option>
+            <option>In-Progress</option>
+            <option>Completed</option>
+          </select>
 
-        <button type="submit" style={{
-          padding: "10px",
-          border: "none",
-          borderRadius: "4px",
-          backgroundColor: "#2563eb",
-          color: "#fff",
-          cursor: "pointer",
-          marginTop: "10px",
-        }} >Create Project</button>
-      </form>
+          <button
+            type="submit"
+            style={{
+              padding: "10px",
+              border: "none",
+              borderRadius: "6px",
+              backgroundColor: "#2563eb",
+              color: "#fff",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            Create Project
+          </button>
+        </form>
 
-      {/* Project List */}
-      <div>
-        {projects.length === 0 ? (
-          <p>No Projects found.</p>
-        ) : (
-          projects.map((project) => (
-            <ProjectCard
-              key={project._id}
-              project={project}
-              setProjects={setProjects}
-            />
-          ))
-        )}
+        {/* Project List */}
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "600px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+        >
+          {projects.length === 0 ? (
+            <p style={{ textAlign: "center" }}>No Projects found.</p>
+          ) : (
+            projects.map((project) => (
+              <ProjectCard
+                key={project._id}
+                project={project}
+                setProjects={setProjects}
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

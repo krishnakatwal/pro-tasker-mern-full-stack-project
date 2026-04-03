@@ -1,4 +1,3 @@
-
 /**ProjectDetails → full page of one project */
 import { useLoading } from "../context/LoadingContext";
 import Spinner from "../components/Spinner";
@@ -8,12 +7,11 @@ import { projectClient, taskClient } from "../clients/api";
 import TaskCard from "../components/TaskCard";
 
 function ProjectDetails() {
-
-  const  navigate = useNavigate();
+  const navigate = useNavigate();
   //grabs the id from the URL.
   const { projectId } = useParams();
 
-   const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
+  const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
 
   const [project, setProject] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -26,7 +24,7 @@ function ProjectDetails() {
   useEffect(() => {
     async function fetchProjectAndTasks() {
       try {
-           startLoading();
+        startLoading();
         //We get the data and rename it to projectData immediately.
         // Fetch project
         const { data: projectData } = await projectClient.get(`/${projectId}`);
@@ -36,27 +34,25 @@ function ProjectDetails() {
         const { data: taskData } = await taskClient.get(`/${projectId}/tasks`);
         setTasks(taskData);
 
-          stopLoading();
+        stopLoading();
       } catch (error) {
-       setErrorMessage(error.response?.data || error.message);
+        setErrorMessage(error.response?.data || error.message);
       }
     }
     fetchProjectAndTasks();
   }, [projectId]);
-
-  
 
   //create a new task
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-         startLoading();
+      startLoading();
 
-      const {data} = await taskClient.post(`/${projectId}/tasks`,{
+      const { data } = await taskClient.post(`/${projectId}/tasks`, {
         title,
         description,
-        status
+        status,
       });
 
       //add new task to UI
@@ -68,11 +64,10 @@ function ProjectDetails() {
       setDescription("");
 
       stopLoading();
-
     } catch (error) {
       setErrorMessage("Failed to create task");
     }
-  }
+  };
 
   //  // Loading UI (global spinner)
   if (loading) return <Spinner />;
@@ -80,93 +75,136 @@ function ProjectDetails() {
   // prevent crash
   if (!project) return <p>Loading project...</p>;
 
-
   return (
-    <div  style={{
-      padding: "20px",
-      maxWidth: "600px",
-      margin: "0 auto",
-      fontFamily: "Arial, sans-serif",
-    }}>
-      {/** Back Button */}
-      <button onClick={() => navigate("/")}
-       style={{
-        marginBottom: "15px",
-        padding: "6px 10px",
-        cursor: "pointer",
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "600px",
+        margin: "0 auto",
+        fontFamily: "Arial, sans-serif",
+        boxSizing: "border-box",
       }}
-        >Back</button>
+    >
+      {/** Back Button */}
+      <button
+        onClick={() => navigate("/")}
+        style={{
+          marginBottom: "15px",
+          padding: "6px 10px",
+          cursor: "pointer",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          backgroundColor: "#fff",
+        }}
+      >
+        {" "}
+        Back
+      </button>
 
-      {/* Project Info */}
-      <div style={{ marginBottom: "20px" }}>
-      <h1 >{project.name}</h1>
-      <p>{project.description}</p>
+      {/* Project Info Card */}
+      <div
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+          marginBottom: "20px",
+        }}
+      >
+        <h1
+          style={{
+            marginBottom: "10px",
+            fontSize: "clamp(20px, 4vw, 32px)",
+          }}
+        >
+          {project.name}
+        </h1>
+        <p style={{ color: "#555", lineHeight: "1.5" }}>
+          {project.description}
+        </p>
       </div>
-   
 
-      <hr />
+      <hr style={{ margin: "20px 0" }} />
 
       {/**create a task Form */}
-      <h2>Create Tasks</h2>
-      <form onSubmit={handleSubmit}
-       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        marginBottom: "20px",
-      }}
+      <h2 style={{ marginBottom: "10px" }}>Create Tasks</h2>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          marginBottom: "25px",
+          maxWidth: "500px",
+          backgroundColor: "#fff",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+        }}
       >
-        <input 
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Task title"
-        type="text" 
-        style={{ 
-          padding: "8px",
-          borderRadius: "8px",
-          border: "1px solid #ccc",}}
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Task title"
+          type="text"
+          style={{
+            padding: "10px",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            outline: "none",
+            fontSize: "14px",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
         />
 
         <input
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Task Description"
-         type="text" 
-        style={{ padding: "8px",
-          borderRadius: "8px",
-          border: "1px solid #ccc", }}
-         />
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Task Description"
+          type="text"
+          style={{
+            padding: "10px",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            outline: "none",
+            fontSize: "14px",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        />
 
-         <button type="submit"
-         style={{
-          padding: "8px",
-          backgroundColor: "#fecaca",
-          border: "none",
-          cursor: "pointer",
-          borderRadius: "8px",
-        }}
-         >Add Task</button>
-
+        <button
+          type="submit"
+          style={{
+            padding: "10px",
+            border: "none",
+            borderRadius: "6px",
+            backgroundColor: "#2563eb",
+            color: "#fff",
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          Add Task
+        </button>
       </form>
-       
-       {/** Task List */}
-       <h2>Tasks</h2>
 
-      {tasks.length === 0 ? (
-        <p>No tasks for this project</p>
-      ) : (
-        
+      {/** Task List */}
+      <h2 style={{ marginBottom: "10px" }}>Tasks</h2>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        {tasks.length === 0 ? (
+          <p>No tasks for this project</p>
+        ) : (
           tasks.map((task) => (
-              <div key={task._id} style={{ marginBottom: "10px" }}>
+            <div key={task._id} style={{ marginBottom: "10px" }}>
               <TaskCard task={task} setTasks={setTasks} projectId={projectId} />
-              </div>
-
+            </div>
           ))
-
-          )}
-        
-      
+        )}
+      </div>
     </div>
   );
 }
-export default ProjectDetails
+export default ProjectDetails;

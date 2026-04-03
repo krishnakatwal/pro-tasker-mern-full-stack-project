@@ -53,7 +53,8 @@ function Login() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", display: "flex", justifyContent: "center" }}>
+      <div style={{ width: "100%", maxWidth: "400px" }}>
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Login Page</h1>
       <form
         onSubmit={handleSubmit}
@@ -120,6 +121,7 @@ function Login() {
           Login
         </button>
       </form>
+      </div>
     </div>
   );
 }
