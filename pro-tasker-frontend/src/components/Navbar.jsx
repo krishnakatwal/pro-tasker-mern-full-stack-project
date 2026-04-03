@@ -8,11 +8,13 @@ function Navbar() {
 
    const navStyle = {
     padding: "10px 20px",
-    backgroundColor: "#f87171",
+    backgroundColor: "#dc2626",
     color: "#fff",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    flexWrap: "wrap",
+    
   };
 
   const ulStyle = {
@@ -21,8 +23,10 @@ function Navbar() {
     gap: "15px",
     margin: 0,
     padding: 0,
+    alignItems: "center"
   };
  const linkStyle = {
+
     color: "#fff",
     textDecoration: "none",
     cursor: "pointer",

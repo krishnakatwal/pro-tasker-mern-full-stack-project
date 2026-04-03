@@ -7,6 +7,7 @@ import useAuthValidation from "../hook/useAuthValidation.js";
 
 function Login() {
   const { errors, validateLogin } = useAuthValidation();
+
   //Bring in the setter function from the context
   const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
 
@@ -53,20 +54,16 @@ function Login() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Login Page</h1>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Login Page</h1>
       <form
         onSubmit={handleSubmit}
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
-          maxWidth: "300px",
-          borderRadius: "8px",
-          padding: "20px",
-          backgroundColor: "#ffffff",
+          gap: "15px",
         }}
       >
-        {/* <div> */}
+        <div>
         <label htmlFor="email">Email:</label>
         <input
           value={form.email}
@@ -76,12 +73,18 @@ function Login() {
           type="email"
           required
           style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
         />
-        {/* </div> */}
+        </div>
+
+        <div>
+
+      
 
         <label htmlFor="password">Password:</label>
         <input
@@ -91,21 +94,27 @@ function Login() {
           name="password"
           type="password"
           required
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
+         style={{
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
         />
+          </div>
 
         <button
           style={{
-            padding: "8px",
+            padding: "10px",
             marginTop: "10px",
             backgroundColor: "#2563eb",
             border: "none",
-            borderRadius: "4px",
+            borderRadius: "6px",
             cursor: "pointer",
+            color: "#fff",
+            fontWeight: "bold",
+            width: "100%",
           }}
         >
           Login

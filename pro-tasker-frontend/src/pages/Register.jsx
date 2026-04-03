@@ -62,7 +62,7 @@ function Register() {
         alignItems: "center", // centers horizontally
       }}
     >
-      <h1 style={{ marginBottom: "20px" }}>Register Page</h1>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Register Page</h1>
 
       <form
         onSubmit={handlesubmit}
@@ -73,51 +73,63 @@ function Register() {
           width: "320px",
         }}
       >
-        <label htmlFor="username">username:</label>
+        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+          <label htmlFor="username">username:</label>
 
-        <input
-          value={form.username}
-          onChange={handlechange}
-          id="username"
-          name="username"
-          type="username"
-          required
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
-        />
+          <input
+            value={form.username}
+            onChange={handlechange}
+            id="username"
+            name="username"
+            type="username"
+            required
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
 
-        <label htmlFor="email">Email:</label>
-        <input
-          value={form.email}
-          onChange={handlechange}
-          id="email"
-          name="email"
-          type="email"
-          required
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
-        />
+        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+          <label htmlFor="email">Email:</label>
+          <input
+            value={form.email}
+            onChange={handlechange}
+            id="email"
+            name="email"
+            type="email"
+            required
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
 
-        <label htmlFor="password">Password:</label>
-        <input
-          value={form.password}
-          onChange={handlechange}
-          id="password"
-          name="password"
-          type="password"
-          required
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
-        />
+        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+          <label htmlFor="password">Password:</label>
+          <input
+            value={form.password}
+            onChange={handlechange}
+            id="password"
+            name="password"
+            type="password"
+            required
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
 
         <button
           style={{
@@ -128,6 +140,7 @@ function Register() {
             borderRadius: "4px",
             cursor: "pointer",
             fontWeight: "bold",
+            width: "100%",
           }}
         >
           Register

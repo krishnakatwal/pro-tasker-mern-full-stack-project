@@ -16,7 +16,7 @@ function App() {
 
   return (
     <>
-      <h1>Pro Tasker</h1>
+      <h1 style={{  fontSize: "6vw",textAlign: "center", marginBottom: "20px",color: "#2563eb"}}>Pro Tasker</h1>
       {/* inserts the navigation bar at the top of the page. */}
       <Navbar />
 

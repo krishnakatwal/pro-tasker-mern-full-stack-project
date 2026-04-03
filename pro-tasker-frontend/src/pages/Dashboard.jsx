@@ -78,7 +78,7 @@ function Dashboard() {
       padding: "24px",
       fontFamily: "Arial, sans-serif",
     }}>
-      <h1 style={{ marginBottom: "20px" }}>Dashboard Page</h1>
+      <h1 style={{color: "#2563eb",textAlign: "center", marginBottom: "20px", fontSize: "6vw",fontWeight: "bold", }}>Dashboard Page</h1>
 
       {/* Create Project Form */}
       <form onSubmit={handleSubmit}  style={{

@@ -2,6 +2,12 @@
 
 A full-stack task and project management application built with React (frontend) and Node.js / Express / MongoDB (backend). Users can register, log in, create projects, and manage tasks within each project.
 
+
+##  Live Links
+
+- Backend API: https://pro-tasker-mern-full-stack-project-1.onrender.com
+- Frontend: 
+
 # Features
 
 - User authentication (Register/Login)
