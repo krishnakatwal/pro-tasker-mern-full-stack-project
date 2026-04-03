@@ -16,7 +16,7 @@ function useAuthValidation() {
       newErrors.email = "Email is required";
     }
     //check if email format is valid
-    else if (!form.email.include("@")) {
+    else if (!form.email.includes("@")) {
       newErrors.email = "Invalid email format";
     }
 

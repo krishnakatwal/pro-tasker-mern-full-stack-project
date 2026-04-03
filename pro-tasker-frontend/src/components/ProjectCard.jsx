@@ -71,6 +71,11 @@ function ProjectCard({ project,setProjects }) {
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
     setStatus(newStatus);
+    setProjects((prev) =>
+      prev.map((projectItem) =>
+        projectItem._id === project._id ? { ...projectItem, status: newStatus } : projectItem
+      )
+    )
 
     try {
 
@@ -138,8 +143,8 @@ function ProjectCard({ project,setProjects }) {
       }}
       >
         <option value="pending">Pending</option>
-        <option value="In-Progress">In-Progress</option>
-        <option value="completed">completed</option>
+        <option value="In-Progress">In Progress</option>
+        <option value="completed">Completed</option>
 
       </select>
 

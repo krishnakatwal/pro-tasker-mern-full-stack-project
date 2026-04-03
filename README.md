@@ -50,7 +50,7 @@ A full-stack task and project management application built with React (frontend)
 
 ```
 pro-tasker/
-└── frontend/
+└── pro-tasker-frontend/
     ├── public/
     │   └── _redirects
     │
@@ -62,8 +62,7 @@ pro-tasker/
     │   │   ├── Navbar.jsx
     │   │   ├── ProjectCard.jsx
     │   │   ├── TaskCard.jsx
-    │   │   ├── Spinner.jsx
-    │   │   └── ErrorMessage.jsx
+    │   │   └── Spinner.jsx
     │   │
     │   ├── pages/
     │   │   ├── Login.jsx
@@ -75,7 +74,7 @@ pro-tasker/
     │   │   └── UserContext.jsx
     │   │
     │   ├── hooks/
-    │   │   └── useValidate.js
+    │   │   └── useAuthValidation.js
     │   │
     │   ├── clients/
     │   │   └── api.js
@@ -87,6 +86,37 @@ pro-tasker/
     ├── .env
     ├── package.json
     └── vite.config.js
+
+```
+
+```
+pro-tasker/
+└── pro-tasker-backend/
+    ├── config/
+    │   └── connection.js               
+    │
+    ├── controllers/
+    │   ├── userControllers.js    
+    │   ├── projectControllers.js
+    │   └── taskControllers.js
+    │
+    ├── models/
+    │   ├── Project.js              
+    │   ├── Task.js         
+    │   └── User.js            
+    │
+    ├── routes/
+    │   ├── userRoutes.js
+    │   ├── projectRoutes.js
+    │   └── taskRoutes.js
+    │
+    ├── utils/
+    │   └── auth.js     
+    │
+    ├── .env
+    ├── .gitignore
+    ├── package.json
+    └── server.js                
 
 ```
  
