@@ -1,10 +1,11 @@
 
 /**TaskCard → individual task UI inside ProjectDetails */
-
+import { useLoading } from "../context/LoadingContext";
 import { useState, useEffect } from "react";
 import { taskClient } from "../clients/api";
 
 function TaskCard({ task,setTasks,projectId }) {
+  const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
 
   const [status, setStatus] = useState(task?.status || "");
   const [isEditing, setIsEditing] = useState(false);
@@ -25,6 +26,7 @@ function TaskCard({ task,setTasks,projectId }) {
     return ;
 
   try {
+    startLoading();
      console.log("Deleting task:", task._id);
 
     const res = await taskClient.delete(`/${task._id}`);
@@ -33,10 +35,10 @@ function TaskCard({ task,setTasks,projectId }) {
 
     setTasks((prev) => prev.filter((taskitem)=> taskitem._id !== task._id));
 
-    
+    stopLoading();
   } catch (error) {
     console.error(error)
-    alert("Failed to delete task")
+    setErrorMessage("Failed to delete task");
 
   }
 }
@@ -54,6 +56,7 @@ const handleStatusChange = async (e) => {
 
 
   try {
+     startLoading();
     const {data} = await taskClient.put(`/${task._id}`,{status: newStatus })
     // taskClient.put(`/${projectId}/${task._id}`, { status: newStatus });
 
@@ -62,10 +65,12 @@ const handleStatusChange = async (e) => {
     taskitem._id === task._id ? data: taskitem
   )
     )
+
+     stopLoading();
     
   } catch (error) {
     console.error(error)
-    alert("Failed to update status")
+    setErrorMessage("Failed to update status");
     
   }
 }
@@ -75,6 +80,7 @@ const handleEdit = () => {
 
 const handleUpdate = async () => {
   try {
+    startLoading();
     const { data } = await taskClient.put(`/${task._id}`, {
       title,
       description,
@@ -86,9 +92,10 @@ const handleUpdate = async () => {
     );
 
     setIsEditing(false);
+    stopLoading
   } catch (error) {
     console.error(error);
-    alert("Failed to update task");
+   setErrorMessage("Failed to update task");
   }
 };
 

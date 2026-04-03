@@ -1,12 +1,14 @@
 /**ProjectCard → preview of a project*/
 
-
+import { useLoading } from "../context/LoadingContext";
 import { useState } from "react";
 import { projectClient } from "../clients/api";
 import { useNavigate } from "react-router-dom";
 
 
 function ProjectCard({ project,setProjects }) {
+
+   const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
 
   // console.log("Project data:", project);
 
@@ -22,6 +24,7 @@ function ProjectCard({ project,setProjects }) {
     console.log("save Cliocked")
   
     try {
+      startLoading();
     const { data } = await projectClient.put(`/${project._id}`, {
        name,
       description,
@@ -33,9 +36,10 @@ function ProjectCard({ project,setProjects }) {
     )
       
     setEditing(false)
+     stopLoading();
     } catch (error) {
-      console.error(error)
-    alert("Failed to update project")
+    setErrorMessage("Failed to update project");
+    // alert("Failed to update project")
     
       
     }
@@ -47,14 +51,17 @@ function ProjectCard({ project,setProjects }) {
       return
 
     try {
+      startLoading();
       await projectClient.delete(`/${project._id}`)
 
       setProjects((prev) => 
       prev.filter((p) => p._id !== project._id))
 
+       stopLoading();
+
     } catch (error) {
-     console.error(error)
-    alert("Failed to delete project")
+      setErrorMessage("Failed to delete project");
+    // alert("Failed to delete project")
     
     }
   }
@@ -66,6 +73,8 @@ function ProjectCard({ project,setProjects }) {
     setStatus(newStatus);
 
     try {
+
+         startLoading();
       const { data } = await projectClient.put(`/${project._id}`, {
         status: newStatus,
       });
@@ -73,9 +82,11 @@ function ProjectCard({ project,setProjects }) {
       setProjects((prev) =>
         prev.map((p) => (p._id === project._id ? data : p))
       );
+
+      stopLoading();
     } catch (e) {
       // setError(e.response?.data?.message || "Status update failed");
-    console.error(error)
+    setErrorMessage("Status update failed");
     // alert("Failed to delete task")
     
     }

@@ -1,5 +1,6 @@
 /**Dashboard → list view */
-
+import { useLoading } from "../context/LoadingContext.jsx";
+import Spinner from "../components/Spinner.jsx";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { projectClient } from "../clients/api.js";
@@ -11,15 +12,19 @@ function Dashboard() {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("pending");
 
+
+
   // const [filteredProjects, setFilteredProjects] = useState([]);
   // const [searchQuery, setSearchQuery] = useState("");
 
+  const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
   const navigate = useNavigate();
 
   //fetch Projects
   useEffect(() => {
     async function getProjects() {
       try {
+         startLoading();
         //get our project from db
         const { data } = await projectClient.get("/");
 
@@ -27,18 +32,23 @@ function Dashboard() {
 
         //save that in component's state
         setProjects(data.projects || data || []);
+        stopLoading();
+
       } catch (error) {
-        console.log(error.response?.data || error.message);
+    setErrorMessage(error.response?.data || error.message);
       }
     }
     getProjects();
   }, []);
+
+  
 
   //create project
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+       startLoading();
       //make a POST request to create the post (based off the state: title and body)
       const { data } = await projectClient.post("/", {
         name,
@@ -53,10 +63,15 @@ function Dashboard() {
       setName("");
       setDescription("");
       setStatus("pending");
+
+      stopLoading();
+
     } catch (error) {
-      console.log(error);
+       setErrorMessage("Failed to create project");
     }
   };
+ // Loading UI
+  if (loading) return <Spinner />;
 
   return (
 <div style={{

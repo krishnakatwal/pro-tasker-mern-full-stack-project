@@ -1,6 +1,7 @@
 
 /**ProjectDetails → full page of one project */
-
+import { useLoading } from "../context/LoadingContext";
+import Spinner from "../components/Spinner";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { projectClient, taskClient } from "../clients/api";
@@ -11,6 +12,8 @@ function ProjectDetails() {
   const  navigate = useNavigate();
   //grabs the id from the URL.
   const { projectId } = useParams();
+
+   const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
 
   const [project, setProject] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -23,6 +26,7 @@ function ProjectDetails() {
   useEffect(() => {
     async function fetchProjectAndTasks() {
       try {
+           startLoading();
         //We get the data and rename it to projectData immediately.
         // Fetch project
         const { data: projectData } = await projectClient.get(`/${projectId}`);
@@ -31,18 +35,24 @@ function ProjectDetails() {
         // Fetch tasks for this project
         const { data: taskData } = await taskClient.get(`/${projectId}/tasks`);
         setTasks(taskData);
+
+          stopLoading();
       } catch (error) {
-        console.log(error.response?.data || error.message);
+       setErrorMessage(error.response?.data || error.message);
       }
     }
     fetchProjectAndTasks();
   }, [projectId]);
+
+  
 
   //create a new task
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+         startLoading();
+
       const {data} = await taskClient.post(`/${projectId}/tasks`,{
         title,
         description,
@@ -57,11 +67,16 @@ function ProjectDetails() {
       setTitle("");
       setDescription("");
 
+      stopLoading();
 
     } catch (error) {
-      console.error("Failed to creating task",error)
+      setErrorMessage("Failed to create task");
     }
   }
+
+  //  // Loading UI (global spinner)
+  if (loading) return <Spinner />;
+
   // prevent crash
   if (!project) return <p>Loading project...</p>;
 

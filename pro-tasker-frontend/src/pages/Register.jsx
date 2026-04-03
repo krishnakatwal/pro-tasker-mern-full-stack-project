@@ -1,3 +1,4 @@
+import { useLoading } from "../context/LoadingContext.jsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userClient } from "../clients/api.js";
@@ -5,6 +6,8 @@ import { useUser } from "../context/UserContext.jsx";
 //custom API helper (usually Axios),Makes requests to your backend
 
 function Register() {
+  const { loading, startLoading, stopLoading, setErrorMessage } =
+    useLoading();
   //// bring in the setter function from the context
   const { setUser } = useUser();
   const navigate = useNavigate();
@@ -28,6 +31,7 @@ function Register() {
     e.preventDefault();
 
     try {
+      startLoading();
       // send the form data to our backend
       const { data } = await userClient.post("/register", form);
 
@@ -36,12 +40,12 @@ function Register() {
 
       // save some user data in our state
       setUser(data.user);
-
+      stopLoading();
       // take the user to a different page
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      setErrorMessage(error.response.data.message);
     }
   };
 

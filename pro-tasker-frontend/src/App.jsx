@@ -1,3 +1,4 @@
+import { useLoading } from "./context/LoadingContext.jsx";
 import "./App.css";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
@@ -10,12 +11,19 @@ import ProjectDetails from "./pages/ProjectDetails.jsx";
 function App() {
   //bring in user info
   const { user } = useUser();
+  const { loading, error } = useLoading();
 
   return (
     <>
       <h1>Pro Tasker</h1>
       {/* inserts the navigation bar at the top of the page. */}
       <Navbar />
+
+      {/* Loading UI */}
+      {loading && <p>Loading...</p>}
+
+      {/* Error UI */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {user ? (
         <Routes>
