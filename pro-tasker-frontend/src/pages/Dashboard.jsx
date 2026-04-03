@@ -11,8 +11,8 @@ function Dashboard() {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("pending");
 
-  const [filteredProjects, setFilteredProjects] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [filteredProjects, setFilteredProjects] = useState([]);
+  // const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ function Dashboard() {
         //save that in component's state
         setProjects(data.projects || data || []);
       } catch (error) {
-        console.log(error.response.data);
+        console.log(error.response?.data || error.message);
       }
     }
     getProjects();
@@ -64,7 +64,7 @@ function Dashboard() {
 
       {/* Create Project Form */}
       <form onSubmit={handleSubmit}>
-        <h2>Leave a Project Here:</h2>
+        <h2>Create a Project Here:</h2>
 
         <label htmlFor="name">Name:</label>
         <input
@@ -86,7 +86,7 @@ function Dashboard() {
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        <select value={status} onChange={(e) => set}>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option>Pending</option>
           <option>In-Progress</option>
           <option>Completed</option>

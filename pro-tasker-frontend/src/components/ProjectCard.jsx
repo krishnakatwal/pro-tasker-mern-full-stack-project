@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { projectClient } from "../clients/api";
+import { useNavigate } from "react-router-dom";
 
 
 function ProjectCard({ project,setProjects }) {
@@ -13,6 +14,8 @@ function ProjectCard({ project,setProjects }) {
   const [isEditing, setEditing] =useState(false)
   const [name, setName] = useState(project?.name || "")
   const [description,setDescription] = useState(project?.description || "")
+
+  const navigate = useNavigate()
 
   //update project
   const handleUpdate = async () => {
@@ -31,7 +34,9 @@ function ProjectCard({ project,setProjects }) {
       
     setEditing(false)
     } catch (error) {
-      console.log(error)
+      console.error(error)
+    alert("Failed to update project")
+    
       
     }
   }
@@ -48,7 +53,9 @@ function ProjectCard({ project,setProjects }) {
       prev.filter((p) => p._id !== project._id))
 
     } catch (error) {
-      console.log(error)
+     console.error(error)
+    alert("Failed to delete project")
+    
     }
   }
 
@@ -68,7 +75,9 @@ function ProjectCard({ project,setProjects }) {
       );
     } catch (e) {
       // setError(e.response?.data?.message || "Status update failed");
-      console.log(e)
+    console.error(error)
+    // alert("Failed to delete task")
+    
     }
   };
 
@@ -80,7 +89,16 @@ function ProjectCard({ project,setProjects }) {
       {/** project Info */}
 
       {/* Header */}
-      <h3>{project.name}</h3>
+      {/** clickable titile */}
+      <h3
+      onClick={() => {
+        console.log("clicked:",project._id);
+         navigate(`/projects/${project._id}`)
+      }
+       }
+
+      style={{cursor: "pointer", color:"blue"}}
+      >{project.name}</h3>
 
       {/* Body */}
       <p>{project.description || "No description provided"}</p>

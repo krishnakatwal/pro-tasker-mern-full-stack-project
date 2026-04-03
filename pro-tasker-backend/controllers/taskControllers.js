@@ -12,7 +12,7 @@ export const createTask = async (req, res) => {
       return res.status(404).json({ message: "Project not found" });
     }
     //Check ownership
-    if (project.user.toString() !== req.user._id) {
+    if (project.user.toString() !== req.user._id.toString()) {
       return res
         .status(403)
         .json({ message: "Not authorized to create a task" });
@@ -43,27 +43,40 @@ export const getTaskByProject = async (req, res) => {
 //Update task
 export const updateTask = async (req, res) => {
   try {
-    const task = await Project.findOne({ _id: req.params.id });
+    const task = await Task.findOne({ _id: req.params.taskId});
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
-    if (task.project.toString() !== req.user._id) {
+    //Get the related project
+    const project = await Project.findOne({_id:task.project})
+
+    if(!project) {
+      return res.status(404).json({message: " Project not found"})
+
+    }
+    if (project.user.toString() !== req.user._id.toString()) {
       return res
         .status(403)
         .json({ message: "Not authorized to update the tassk" });
     }
 
-    const updatedTask = await Task.findOneAndUpdate(
-      {
-        //finds a task only if its ID matches AND it belongs to the given project
-        _id: req.params.taskId,
-        project: req.params.projectId,
-      },
-      req.body,
-      { new: true },
-    );
-    res.json(`Task updated: ${updatedTask.title}`);
+    // const updatedTask = await Task.findByIdAndUpdate(
+    //   {
+    //     // finds a task only if its ID matches AND it belongs to the given project
+    //     _id: req.params.taskId,
+    //     project: req.params.projectId,
+    //   },
+    //   req.body,
+    //   { new: true },
+    // );
+
+  const updatedTask = await Task.findByIdAndUpdate(
+  req.params.taskId,
+  req.body,
+  { new: true }
+);
+  res.json(updatedTask);
   } catch (error) {
     res.status(500).json({ message: "Failed to update task" });
   }
@@ -72,7 +85,7 @@ export const updateTask = async (req, res) => {
 //Delete task
 export const deleteTask = async (req, res) => {
   try {
-    const task = await Task.findOne({ _id: req.params.taskId });
+    const task = await Task.findOne({ _id: req.params.taskId }).populate("project");
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
@@ -83,11 +96,12 @@ export const deleteTask = async (req, res) => {
     }
 
     //Delete task (only if it belongs to project)
-    const deletedTask = await Task.findOneAndDelete({
-      _id: req.params.taskId,
-      project: req.params.projectId,
-    });
-    res.json(`Task deleted: ${deletedTask.title}`);
+    const deletedTask = await Task.findByIdAndDelete(req.params.taskId);
+    // const deletedTask = await Task.findOneAndDelete({
+    //   _id: req.params.taskId,
+    //   project: req.params.projectId,
+    // });
+   res.json({ success: true, id: deletedTask._id });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

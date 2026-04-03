@@ -20,8 +20,10 @@ router.get("/:projectId/tasks", getTaskByProject);
 
 //Update task  PUT api/tasks/:taskId
 router.put("/:taskId", updateTask);
+// router.put("/:projectId/:taskId", updateTask);
 
 //Delete task DELETE api/task/:taskId
 router.delete('/:taskId', deleteTask);
+// router.delete("/:projectId/:taskId", deleteTask);
 
 export default router;

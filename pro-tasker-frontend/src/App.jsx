@@ -1,35 +1,35 @@
 import "./App.css";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
-import Dashboard from "./pages/Dashboard.jsx"
-import { Routes,Route,Navigate } from "react-router-dom";
+import Dashboard from "./pages/Dashboard.jsx";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useUser } from "./context/UserContext.jsx";
 import Navbar from "./components/Navbar.jsx";
+import ProjectDetails from "./pages/ProjectDetails.jsx";
 
 function App() {
-
-
-  //bring in user info 
-  const {user} = useUser()
+  //bring in user info
+  const { user } = useUser();
 
   return (
     <>
-     <h1>Welcome</h1>
+      <h1>Pro Tasker</h1>
       {/* inserts the navigation bar at the top of the page. */}
       <Navbar />
-     
+
       {user ? (
         <Routes>
-          <Route path='/dashboard' element={<Dashboard/ >} />
-          <Route />
-        </Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects/:projectId" element={<ProjectDetails />} />
 
-      ):(
+          {/* fallback */}
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+      ) : (
         <Routes>
-            <Route path="/register" element={<Register/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="*" element={<Navigate to="/login"/>} />
-              
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       )}
     </>

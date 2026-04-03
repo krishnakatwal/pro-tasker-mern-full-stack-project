@@ -8,7 +8,7 @@ function Navbar() {
 
   return (
     <nav>
-      {user && <p>WelCome{user.username}</p>}
+      {user && <p>WelCome {user.username}</p>}
       <ul>
         {user ? (
           <>
