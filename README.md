@@ -6,7 +6,7 @@ A full-stack task and project management application built with React (frontend)
 ##  Live Links
 
 - Backend API: https://pro-tasker-mern-full-stack-project-1.onrender.com
-- Frontend: 
+- Frontend: https://pro-tasker-mern-full-stack.netlify.app
 
 # Features
 
