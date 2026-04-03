@@ -46,9 +46,24 @@ function Register() {
   };
 
   return (
-    <div>
-      <h1>Register Page</h1>
-      <form onSubmit={handlesubmit}>
+    
+    <div style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center", // centers horizontally
+  }}
+    >
+
+       <h1 style={{ marginBottom: "20px" }}>Register Page</h1>
+     
+      <form onSubmit={handlesubmit}
+      style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+      width: "320px",
+    }}
+      >
         <label htmlFor="username">username:</label>
 
         <input
@@ -58,6 +73,12 @@ function Register() {
           name="username"
           type="username"
           required
+
+           style={{
+          padding: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+        }}
         />
 
         <label htmlFor="email">Email:</label>
@@ -68,6 +89,11 @@ function Register() {
           name="email"
           type="password"
           required
+           style={{
+          padding: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+        }}
         />
 
         <label htmlFor="password">Password:</label>
@@ -78,9 +104,24 @@ function Register() {
           name="password"
           type="password"
           required
+           style={{
+          padding: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+        }}
         />
 
-        <button>Register</button>
+        <button
+        style={{
+          padding: "10px",
+          marginTop: "10px",
+          backgroundColor: "#fecaca", 
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontWeight: "bold",
+        }}
+        >Register</button>
       </form>
     </div>
   );

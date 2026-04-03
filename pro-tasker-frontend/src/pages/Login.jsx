@@ -43,9 +43,20 @@ function Login() {
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h1>Login Page</h1>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          maxWidth: "300px",
+          borderRadius: "8px",
+          padding: "20px",
+          backgroundColor: "#ffffff",
+        }}
+      >
         <label htmlFor="email">Email:</label>
         <input
           value={form.email}
@@ -54,6 +65,11 @@ function Login() {
           name="email"
           type="email"
           required
+          style={{
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
 
         <label htmlFor="password">Password:</label>
@@ -64,9 +80,24 @@ function Login() {
           name="password"
           type="password"
           required
+          style={{
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
 
-        <button>Login</button>
+        <button
+          style={{
+            padding: "8px",
+            marginTop: "10px",
+            backgroundColor: "#2563eb",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Login
+        </button>
       </form>
     </div>
   );

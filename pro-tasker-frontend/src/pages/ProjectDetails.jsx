@@ -67,31 +67,70 @@ function ProjectDetails() {
 
 
   return (
-    <div>
+    <div  style={{
+      padding: "20px",
+      maxWidth: "600px",
+      margin: "0 auto",
+      fontFamily: "Arial, sans-serif",
+    }}>
       {/** Back Button */}
-      <button onClick={() => navigate("/")}>Back</button>
+      <button onClick={() => navigate("/")}
+       style={{
+        marginBottom: "15px",
+        padding: "6px 10px",
+        cursor: "pointer",
+      }}
+        >Back</button>
+
       {/* Project Info */}
-      <h1>{project.name}</h1>
+      <div style={{ marginBottom: "20px" }}>
+      <h1 >{project.name}</h1>
       <p>{project.description}</p>
+      </div>
+   
 
       <hr />
 
       {/**create a task Form */}
       <h2>Create Tasks</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}
+       style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        marginBottom: "20px",
+      }}
+      >
         <input 
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Task title"
-        type="text" />
+        type="text" 
+        style={{ 
+          padding: "8px",
+          borderRadius: "8px",
+          border: "1px solid #ccc",}}
+        />
 
         <input
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Task Description"
-         type="text" />
+         type="text" 
+        style={{ padding: "8px",
+          borderRadius: "8px",
+          border: "1px solid #ccc", }}
+         />
 
-         <button type="submit">Add Task</button>
+         <button type="submit"
+         style={{
+          padding: "8px",
+          backgroundColor: "#fecaca",
+          border: "none",
+          cursor: "pointer",
+          borderRadius: "8px",
+        }}
+         >Add Task</button>
 
       </form>
        
@@ -103,7 +142,9 @@ function ProjectDetails() {
       ) : (
         
           tasks.map((task) => (
-            <TaskCard key={task._id} task={task} setTasks={setTasks} projectId={projectId} />
+              <div key={task._id} style={{ marginBottom: "10px" }}>
+              <TaskCard task={task} setTasks={setTasks} projectId={projectId} />
+              </div>
 
           ))
 

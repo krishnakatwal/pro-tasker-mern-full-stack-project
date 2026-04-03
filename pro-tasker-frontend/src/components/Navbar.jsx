@@ -6,26 +6,53 @@ function Navbar() {
   //bring in user info from context
   const { user, logout } = useUser();
 
+   const navStyle = {
+    padding: "10px 20px",
+    backgroundColor: "#f87171",
+    color: "#fff",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  };
+
+  const ulStyle = {
+    listStyle: "none",
+    display: "flex",
+    gap: "15px",
+    margin: 0,
+    padding: 0,
+  };
+ const linkStyle = {
+    color: "#fff",
+    textDecoration: "none",
+    cursor: "pointer",
+  };
+
+   const welcomeStyle = {
+    margin: 0,
+    fontWeight: "bold",
+  };
+
   return (
-    <nav>
-      {user && <p>WelCome {user.username}</p>}
-      <ul>
+    <nav style={navStyle}>
+      {user && <p style={welcomeStyle} >WelCome {user.username}</p>}
+      <ul style={ulStyle}>
         {user ? (
           <>
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard" style={linkStyle} >Dashboard</Link>
             </li>
             <li onClick={logout}>
-              <Link to="/login">Logout</Link>
+              <Link to="/login"  style={linkStyle} >Logout</Link>
             </li>
           </>
         ) : (
           <>
             <li>
-              <Link to="/login">Login</Link>
+              <Link to="/login" style={linkStyle} >Login</Link>
             </li>
             <li>
-              <Link to="/register">Register</Link>
+              <Link to="/register" style={linkStyle} >Register</Link>
             </li>
           </>
         )}

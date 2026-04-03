@@ -59,14 +59,27 @@ function Dashboard() {
   };
 
   return (
-    <div>
-      <h1>Dashboard Page</h1>
+<div style={{
+      padding: "24px",
+      fontFamily: "Arial, sans-serif",
+    }}>
+      <h1 style={{ marginBottom: "20px" }}>Dashboard Page</h1>
 
       {/* Create Project Form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}  style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        maxWidth: "400px",
+        padding: "16px",
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        marginBottom: "30px",
+      }}>
         <h2>Create a Project Here:</h2>
 
         <label htmlFor="name">Name:</label>
+         
         <input
           id="name"
           required={true}
@@ -74,9 +87,15 @@ function Dashboard() {
           type="text"
           onChange={(e) => setName(e.target.value)}
           placeholder="Project Name"
+          style={{
+          padding: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+        }}
         />
 
         <label htmlFor="description">Description:</label>
+        
 
         <textarea
           type="text"
@@ -84,15 +103,35 @@ function Dashboard() {
           required={true}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+           style={{
+          padding: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          minHeight: "80px",
+        }}
         />
 
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}
+          style={{
+          padding: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+        }}
+          >
           <option>Pending</option>
           <option>In-Progress</option>
           <option>Completed</option>
         </select>
 
-        <button type="subm it">Create Project</button>
+        <button type="submit" style={{
+          padding: "10px",
+          border: "none",
+          borderRadius: "4px",
+          backgroundColor: "#2563eb",
+          color: "#fff",
+          cursor: "pointer",
+          marginTop: "10px",
+        }} >Create Project</button>
       </form>
 
       {/* Project List */}

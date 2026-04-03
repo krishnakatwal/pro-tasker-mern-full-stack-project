@@ -84,7 +84,13 @@ function ProjectCard({ project,setProjects }) {
   return (
     <div
     
-      style={{ border: "1px solid #ddd", padding: "16px", borderRadius: "8px" }}
+      style={{ 
+        border: "1px solid #ddd", 
+        padding: "16px", 
+        borderRadius: "8px" ,
+         marginBottom: "12px",
+         backgroundColor: "#fff",
+      }}
     >
       {/** project Info */}
 
@@ -93,21 +99,33 @@ function ProjectCard({ project,setProjects }) {
       <h3
       onClick={() => {
         console.log("clicked:",project._id);
-         navigate(`/projects/${project._id}`)
-      }
-       }
+         navigate(`/projects/${project._id}`)}}
 
-      style={{cursor: "pointer", color:"blue"}}
+      style={{
+        cursor: "pointer",
+         color:"blue",
+         marginBottom: "8px",}}
       >{project.name}</h3>
 
       {/* Body */}
-      <p>{project.description || "No description provided"}</p>
+      <p style={{ marginBottom: "8px" }}>{project.description || "No description provided"}</p>
       
 
-      <small>Created: {new Date(project.createdAt).toLocaleDateString()}</small>
+      <small
+      style={{ display: "block",
+         marginBottom: "10px", 
+         color: "#666" }}
+      >Created: {new Date(project.createdAt).toLocaleDateString()}</small>
 
       {/** status */}
-      <select value={status} onChange={handleStatusChange}>
+      <select value={status} onChange={handleStatusChange}
+      style={{
+        padding: "4px",
+        borderRadius: "4px",
+        border: "1px solid #ccc",
+        marginBottom: "10px",
+      }}
+      >
         <option value="pending">Pending</option>
         <option value="In-Progress">In-Progress</option>
         <option value="completed">completed</option>
@@ -118,30 +136,77 @@ function ProjectCard({ project,setProjects }) {
 
       {/* Actions */}
       <div style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
-        <button onClick={() => setEditing(true)}>Edit</button>
-        <button onClick={handleDelete}>Delete</button> 
+        <button onClick={() => setEditing(true)}
+        style={{
+          padding: "6px 10px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          cursor: "pointer",
+        }}
+          >Edit</button>
+        <button onClick={handleDelete}
+        style={{
+          padding: "6px 10px",
+          borderRadius: "4px",
+          border: "none",
+          backgroundColor: "#fecaca",
+          cursor: "pointer",
+        }}
+        >Delete</button> 
       </div>
 
       {/** Simple Edit Form */}
       {isEditing && (
-        <div>
-          <h4>Edit Project</h4>
+        <div style={{ marginTop: "12px" }}>
+          <h4 style={{ marginBottom: "8px" }}>Edit Project</h4>
 
           <input 
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Name"
           type="text" 
+           style={{
+            display: "block",
+            width: "100%",
+            padding: "6px",
+            marginBottom: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
           />
 
           <textarea 
           value={description}
           onChange={(e)=> setDescription(e.target.value)}
           placeholder="Description"
+          style={{
+            display: "block",
+            width: "100%",
+            padding: "6px",
+            marginBottom: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
           />
-
-          <button onClick={handleUpdate}>Save</button>
-          <button onClick={()=> setEditing(false)}>cancel</button>
+          <div style={{ display: "flex", gap: "8px" }}>
+          <button onClick={handleUpdate}
+          style={{
+              padding: "6px 10px",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: "#fecaca",
+              cursor: "pointer",
+            }}
+          >Save</button>
+          <button onClick={()=> setEditing(false)}
+          style={{
+              padding: "6px 10px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              cursor: "pointer",
+            }}
+            >cancel</button>
+          </div>
             
          
         </div>

@@ -144,7 +144,13 @@ if(!task) return null;
 
 return (
 
-   <div style={{ border: "1px solid #ccc", padding: "12px", borderRadius: "8px", marginBottom: "10px" }}>
+   <div  style={{
+      border: "1px solid #ccc",
+      padding: "12px",
+      borderRadius: "8px",
+      marginBottom: "10px",
+      backgroundColor: "#fff",
+    }}>
 
     {isEditing ? (
       <>
@@ -152,33 +158,90 @@ return (
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Task title"
+          style={{
+            display: "block",
+            width: "100%",
+            padding: "6px",
+            marginBottom: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
 
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
+          style={{
+            display: "block",
+            width: "100%",
+            padding: "6px",
+            marginBottom: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
 
-        <div style={{ marginTop: "10px" }}>
-          <button onClick={handleUpdate}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
+        <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+          <button 
+          style={{
+              padding: "6px 10px",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: "#fecaca",
+              cursor: "pointer",
+            }}
+          onClick={handleUpdate}>Save</button>
+          <button 
+          style={{
+              padding: "6px 10px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              cursor: "pointer",
+            }}
+          onClick={() => setIsEditing(false)}>Cancel</button>
         </div>
       </>
     ) : (
       <>
-        <h4>{task.title}</h4>
-        <p>{task.description || "No description provided"}</p>
+      <div style={{ marginBottom: "5px" }}>
+        <h4 >{task.title}</h4>
+        <p >{task.description || "No description provided"}</p>   
+      </div>
+        
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <select value={status} onChange={handleStatusChange}>
+          <select value={status} onChange={handleStatusChange}
+           style={{
+              padding: "4px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
+          >
             <option value="To Do">To Do</option>
             <option value="In Progress">In Progress</option>
             <option value="Done">Done</option>
           </select>
 
-          <button onClick={handleEdit}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
+          <button 
+          onClick={handleEdit}
+          style={{
+              padding: "4px 8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              cursor: "pointer",
+            }}
+          >Edit</button>
+          <button 
+          onClick={handleDelete}
+          style={{
+              padding: "4px 8px",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: "#fecaca",
+              cursor: "pointer",
+            }}
+          >Delete</button>
         </div>
 
         <div style={{ marginTop: "10px", fontSize: "12px", color: "#666" }}>
