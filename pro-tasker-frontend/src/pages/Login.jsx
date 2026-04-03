@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userClient } from "../clients/api.js";
 import { useUser } from "../context/UserContext.jsx";
+import useAuthValidation from "../hook/useAuthValidation.js";
 
 function Login() {
+  const { errors, validateLogin } = useAuthValidation();
   //Bring in the setter function from the context
-  const { loading, startLoading, stopLoading, setErrorMessage } =
-    useLoading();
+  const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
 
   const { setUser } = useUser();
 
@@ -28,6 +29,9 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const isValid = validateLogin(form);
+    if (!isValid) return;
+
     try {
       startLoading();
       //send the form data to our backend
@@ -41,10 +45,9 @@ function Login() {
       stopLoading();
       //take the user to a different page
       navigate("/dashboard");
-      
     } catch (error) {
       console.log(error);
-     setErrorMessage(error.response.data.message);
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -63,6 +66,7 @@ function Login() {
           backgroundColor: "#ffffff",
         }}
       >
+        {/* <div> */}
         <label htmlFor="email">Email:</label>
         <input
           value={form.email}
@@ -77,6 +81,7 @@ function Login() {
             border: "1px solid #ccc",
           }}
         />
+        {/* </div> */}
 
         <label htmlFor="password">Password:</label>
         <input
@@ -99,6 +104,7 @@ function Login() {
             marginTop: "10px",
             backgroundColor: "#2563eb",
             border: "none",
+            borderRadius: "4px",
             cursor: "pointer",
           }}
         >

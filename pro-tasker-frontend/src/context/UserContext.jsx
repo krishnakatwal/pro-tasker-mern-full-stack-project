@@ -32,7 +32,7 @@ function UserProvider({ children }) {
         setUser(data);
       } catch (error) {
         //  // if verification fails, logout the user
-        console.log(err);
+        console.log(error);
         logout();
       }
     }

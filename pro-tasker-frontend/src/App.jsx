@@ -11,6 +11,7 @@ import ProjectDetails from "./pages/ProjectDetails.jsx";
 function App() {
   //bring in user info
   const { user } = useUser();
+  
   const { loading, error } = useLoading();
 
   return (

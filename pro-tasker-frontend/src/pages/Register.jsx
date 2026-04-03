@@ -3,11 +3,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userClient } from "../clients/api.js";
 import { useUser } from "../context/UserContext.jsx";
+import useAuthValidation from "../hook/useAuthValidation.js";
 //custom API helper (usually Axios),Makes requests to your backend
 
 function Register() {
-  const { loading, startLoading, stopLoading, setErrorMessage } =
-    useLoading();
+  const { errors, validateRegister } = useAuthValidation();
+
+  const { loading, startLoading, stopLoading, setErrorMessage } = useLoading();
   //// bring in the setter function from the context
   const { setUser } = useUser();
   const navigate = useNavigate();
@@ -30,6 +32,9 @@ function Register() {
   const handlesubmit = async (e) => {
     e.preventDefault();
 
+    const isValid = validateRegister(form);
+    if (!isValid) return;
+
     try {
       startLoading();
       // send the form data to our backend
@@ -50,23 +55,23 @@ function Register() {
   };
 
   return (
-    
-    <div style={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center", // centers horizontally
-  }}
-    >
-
-       <h1 style={{ marginBottom: "20px" }}>Register Page</h1>
-     
-      <form onSubmit={handlesubmit}
+    <div
       style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "12px",
-      width: "320px",
-    }}
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center", // centers horizontally
+      }}
+    >
+      <h1 style={{ marginBottom: "20px" }}>Register Page</h1>
+
+      <form
+        onSubmit={handlesubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          width: "320px",
+        }}
       >
         <label htmlFor="username">username:</label>
 
@@ -77,12 +82,11 @@ function Register() {
           name="username"
           type="username"
           required
-
-           style={{
-          padding: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-        }}
+          style={{
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
 
         <label htmlFor="email">Email:</label>
@@ -91,13 +95,13 @@ function Register() {
           onChange={handlechange}
           id="email"
           name="email"
-          type="password"
+          type="email"
           required
-           style={{
-          padding: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-        }}
+          style={{
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
 
         <label htmlFor="password">Password:</label>
@@ -108,24 +112,26 @@ function Register() {
           name="password"
           type="password"
           required
-           style={{
-          padding: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-        }}
+          style={{
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
 
         <button
-        style={{
-          padding: "10px",
-          marginTop: "10px",
-          backgroundColor: "#fecaca", 
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
-        >Register</button>
+          style={{
+            padding: "10px",
+            marginTop: "10px",
+            backgroundColor: "#fecaca",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          Register
+        </button>
       </form>
     </div>
   );
